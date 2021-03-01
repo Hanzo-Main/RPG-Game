@@ -6,7 +6,6 @@
 # Description: RPG game with classes, no addition files yet
 # Ill be doing that for the final game though
 
-import os
 import title as ti
 global dest
 global ask
