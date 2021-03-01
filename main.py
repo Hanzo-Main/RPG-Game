@@ -3,7 +3,8 @@
 # Date created: 21/02/28
 # Date last modified: 21/03/01
 # Name: Kira Gray
-# Description: RPG game with classes
+# Description: RPG game with classes, no addition files yet
+# Ill be doing that for the final game though
 
 import os
 import title as ti
@@ -28,6 +29,12 @@ class Captain(Enemy):
 class Pirate(Enemy):
   def __init__(status):
     status.live = 'alive'
+
+class MapTile:
+    """ Map with x and y coordinates"""
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 
 def print_map():
