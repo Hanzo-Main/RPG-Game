@@ -5,6 +5,9 @@
 # Name: Kira Gray
 # Description: RPG game with classes
 
+global dest
+global ask
+
 class player:
     def __init__(self):
         self.name = ''
@@ -167,10 +170,8 @@ def print_location():
 def continuous(ans):
   while ans:
       print("""
-      Go in one of the following directions:
-      -> Left
-      -> Right
       Do one of the following actions:
+      -> Move
       -> Explore
       -> Attack
       -> Quit
@@ -194,26 +195,48 @@ def continuous(ans):
       else:
         print("Invalid imput!")
 
+
+
 def move(myAction):
-	askString = "Where would you like to "+myAction+" to?\n> "
-	destination = input(askString)
-	if destination == 'forward':
-		move_dest = cube[player1.position][SIDE_UP]
-		move_player(move_dest)
-	elif destination == 'left':
-		move_dest = cube[player1.position][SIDE_LEFT]
-		move_player(move_dest)
+	ask = "Where would you like to "+myAction+" to?\n> "
+	dest = input(ask)
+	if dest == 'left':
+          destination = zonemap[myPlayer.location][LEFT]
+          move_player(destination)
 	elif destination == 'right':
-		move_dest = cube[player1.position][SIDE_RIGHT]
-		move_player(move_dest)
-	elif destination == 'back':
-		move_dest = cube[player1.position][SIDE_DOWN]
-		move_player(move_dest)
+          destination = zonemap[myPlayer.location][RIGHT]
+          move_player(destination)
 	else:
-		print("Invalid direction command, try using forward, back, left, or right.\n")
+		print("Invalid direction, try using left, or right.\n")
 		move(myAction)
 
-def move_player(move_dest):
-	print("\nYou have moved to the " + move_dest + ".")
-	player1.position = move_dest
+def move_player(destination):
+	print("\nYou have moved to the " + destination + ".")
+	myPlayer.location = destination
 	print_location()
+
+def play_examine(ans):
+  if zonemap[myPlayer.location] == 'a1' or 'b4':
+    ask = "Would you like to go up?\n> "
+    dest = input(ask)
+    if dest == 'yes':
+      destination = zonemap[myPlayer.location][UP]
+      move_player(destination)
+    else:
+      continuous(ans)
+  elif zonemap[myPlayer.location] == 'b2' or 'c2':
+    ask = "Would you like to go down?\n> "
+    dest = input(ask)
+    if dest == 'yes':
+      destination = zonemap[myPlayer.location][DOWN]
+      move_player(destination)
+    else:
+      continuous(ans)
+  else:
+    zonemap[myPlayer.location][SEARCH]
+
+def start_game():
+  return
+
+def main_game_loop():
+  
