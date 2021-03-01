@@ -11,6 +11,7 @@ import title as ti
 global dest
 global ask
 
+
 class player:
     def __init__(self):
         self.name = ''
@@ -18,17 +19,21 @@ class player:
         self.location = 'start'
 myPlayer = player()
 
+
 class Enemy:
-  def __init__(status):
-    status.live = 'alive'
+    def __init__(status):
+        status.live = 'alive'
+
 
 class Captain(Enemy):
-  def __init__(status):
-    status.live = 'alive'
+    def __init__(status):
+        status.live = 'alive'
+
 
 class Pirate(Enemy):
-  def __init__(status):
-    status.live = 'alive'
+    def __init__(status):
+        status.live = 'alive'
+
 
 class MapTile:
     """ Map with x and y coordinates"""
@@ -100,7 +105,7 @@ zonemap = {
         DESCRIPTION: 'locked',
         SEARCH: 'the only way is to the cargo hold on the left',
         UP: '',
-        DOWN:'',
+        DOWN: '',
         LEFT: 'a3',
         RIGHT: '',
     },
@@ -163,7 +168,8 @@ zonemap = {
     },
     'c3': {
         ZONENAME: 'Locked room',
-        DESCRIPTION: """You use the key card! There is nothing in the room, it's just a room leading to the cockpit.""",
+        DESCRIPTION: """You use the key card! There is nothing in the room,
+        it's just a room leading to the cockpit.""",
         SEARCH: """The latter going down is on the left and the
         cockpit is to the right.""",
         UP: '',
@@ -183,91 +189,97 @@ zonemap = {
     },
 }
 
+
 def print_location():
-  print('\n' + ('#' * (4 + len(myPlayer.location))))
-  print('# ' + myPlayer.location + ' #')
-  print('# ' + zonemap[myPlayer.location][DESCRIPTION] + ' #')
-  print('\n' + ('#' * (4 + len(myPlayer.location))))
+    print('\n' + ('#' * (4 + len(myPlayer.location))))
+    print('# ' + myPlayer.location + ' #')
+    print('# ' + zonemap[myPlayer.location][DESCRIPTION] + ' #')
+    print('\n' + ('#' * (4 + len(myPlayer.location))))
+
 
 def continuous(ans):
-  while ans:
-      print("""
-      Do one of the following actions:
-      -> Move
-      -> Explore
-      -> Attack
-      -> Quit
-      """)
-      print("What would you like to do?")
-      ans = input("> ")
-      if ans.lower() == "quit":
-          break
-      if ans.lower() == "left":
-        player.move(ans.lower())
-        print("You go left.")
-      elif ans.lower() == "right".lower():
-        player.move(ans.lower())
-        print("You go right.")
-      elif ans.lower() == "Explore".lower():
-        player.explore(ans.lower())
-        print("You look around.")
-      elif ans.lower() == "attack".lower():
-        player.attack(ans.lower())
-        print("You attack.")
-      else:
-        print("Invalid imput!")
-
+    while ans:
+        print("""
+          Do one of the following actions:
+          -> Move
+          -> Explore
+          -> Attack
+          -> Quit
+          """)
+        print("What would you like to do?")
+        ans = input("> ")
+        if ans.lower() == "quit":
+            break
+        elif ans.lower() == "left":
+            player.move(ans.lower())
+            print("You go left.")
+        elif ans.lower() == "right".lower():
+            player.move(ans.lower())
+            print("You go right.")
+        elif ans.lower() == "Explore".lower():
+            player.explore(ans.lower())
+            print("You look around.")
+        elif ans.lower() == "attack".lower():
+            player.attack(ans.lower())
+            print("You attack.")
+        else:
+            print("Invalid imput!")
 
 
 def move(myAction):
-	ask = "Where would you like to "+myAction+" to?\n> "
-	dest = input(ask)
-	if dest == 'left':
-          destination = zonemap[myPlayer.location][LEFT]
-          move_player(destination)
-	elif destination == 'right':
-          destination = zonemap[myPlayer.location][RIGHT]
-          move_player(destination)
-	else:
-		print("Invalid direction, try using left, or right.\n")
-		move(myAction)
+    ask = "Where would you like to "+myAction+" to?\n> "
+    dest = input(ask)
+    if dest == 'left':
+        destination = zonemap[myPlayer.location][LEFT]
+        move_player(destination)
+    elif destination == 'right':
+        destination = zonemap[myPlayer.location][RIGHT]
+        move_player(destination)
+    else:
+        print("Invalid direction, try using left, or right.\n")
+        move(myAction)
+
 
 def move_player(destination):
-	print("\nYou have moved to the " + destination + ".")
-	myPlayer.location = destination
-	print_location()
+    print("\nYou have moved to the " + destination + ".")
+    myPlayer.location = destination
+    print_location()
+
 
 def play_examine(ans):
-  if zonemap[myPlayer.location] == 'a1' or 'b4':
-    ask = "Would you like to go up?\n> "
-    dest = input(ask)
-    if dest == 'yes':
-      destination = zonemap[myPlayer.location][UP]
-      move_player(destination)
+    if zonemap[myPlayer.location] == 'a1' or 'b4':
+        ask = "Would you like to go up?\n> "
+        dest = input(ask)
+        if dest == 'yes':
+            destination = zonemap[myPlayer.location][UP]
+            move_player(destination)
+        else:
+            continuous(ans)
+    elif zonemap[myPlayer.location] == 'b2' or 'c2':
+        ask = "Would you like to go down?\n> "
+        dest = input(ask)
+        if dest == 'yes':
+            destination = zonemap[myPlayer.location][DOWN]
+            move_player(destination)
+        else:
+            continuous(ans)
     else:
-      continuous(ans)
-  elif zonemap[myPlayer.location] == 'b2' or 'c2':
-    ask = "Would you like to go down?\n> "
-    dest = input(ask)
-    if dest == 'yes':
-      destination = zonemap[myPlayer.location][DOWN]
-      move_player(destination)
-    else:
-      continuous(ans)
-  else:
-    zonemap[myPlayer.location][SEARCH]
+        zonemap[myPlayer.location][SEARCH]
+
 
 def start_game():
-  return
+    return
+
 
 def main_game_loop():
-  while myPlayer.won == False:
-    continuous(ans = True)
+    while myPlayer.won is False:
+        continuous(ans=True)
+
 
 def setup_game():
-  print('\nWelcome to The Hijack!\n')
-  print('You have been hired to take back a cargo ship.')
-  print('Only two pirates are involved. Good Luck!')
-  main_game_loop()
+    print('\nWelcome to The Hijack!\n')
+    print('You have been hired to take back a cargo ship.')
+    print('Only two pirates are involved. Good Luck!')
+    main_game_loop()
 
 ti.intro_text()
