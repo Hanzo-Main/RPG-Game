@@ -5,6 +5,8 @@
 # Name: Kira Gray
 # Description: RPG game with classes
 
+import os
+import title as ti
 global dest
 global ask
 
@@ -14,6 +16,19 @@ class player:
         self.won = False
         self.location = 'start'
 myPlayer = player()
+
+class Enemy:
+  def __init__(status):
+    status.live = 'alive'
+
+class Captain(Enemy):
+  def __init__(status):
+    status.live = 'alive'
+
+class Pirate(Enemy):
+  def __init__(status):
+    status.live = 'alive'
+
 
 def print_map():
     print("""╔════════════╦════════════╦═════════════╦════════════╗
@@ -103,7 +118,7 @@ zonemap = {
     },
     'b3': {
         ZONENAME: 'Living area',
-        DESCRIPTION: """typical living arrangements. There are two pirates""",
+        DESCRIPTION: """typical living arrangements. There is one pirates""",
         SEARCH: """the latter going down on the left and a latter
         going up on the right. You found a key card!""",
         UP: '',
@@ -151,7 +166,7 @@ zonemap = {
     },
     'c4': {
         ZONENAME: 'Cockpit',
-        DESCRIPTION: """three pirates and the captain,
+        DESCRIPTION: """The captain,
         everything else is normal""",
         SEARCH: """the only way is to the left back to the locked room""",
         UP: '',
@@ -239,4 +254,13 @@ def start_game():
   return
 
 def main_game_loop():
-  
+  while myPlayer.won == False:
+    continuous(ans = True)
+
+def setup_game():
+  print('\nWelcome to The Hijack!\n')
+  print('You have been hired to take back a cargo ship.')
+  print('Only two pirates are involved. Good Luck!')
+  main_game_loop()
+
+ti.intro_text()
